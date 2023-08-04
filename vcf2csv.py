@@ -4,6 +4,13 @@ import quopri
 import chardet
 
 def fix_vcf(vcf_filename, fixed_vcf_filename):
+    """
+    This function reads a vCard file and writes a new vCard file with any lines that end with '='
+    concatenated with the next line. This is necessary because some vCard files split long lines
+    into multiple lines by ending each line with '='.
+    :param vcf_filename: The name of the input vCard file.
+    :param fixed_vcf_filename: The name of the output vCard file.
+    """
     with open(vcf_filename, 'r') as source_file, open(fixed_vcf_filename, 'w') as target_file:
         previous_line = ''
         for line in source_file:
@@ -14,8 +21,14 @@ def fix_vcf(vcf_filename, fixed_vcf_filename):
             previous_line = line
 
 
-
 def vcf_to_csv(vcf_filename, csv_filename):
+    """
+    This function reads a vCard file and writes a CSV file containing the contact information
+    from the vCard file. The CSV file will have columns for the contact's name, email address,
+    phone number, and any other fields that are present in the vCard file.
+    :param vcf_filename: The name of the input vCard file.
+    :param csv_filename: The name of the output CSV file.
+    """
     with open(vcf_filename, 'r', encoding=' ISO-8859-9') as source_file:
         vcard_data = vobject.readComponents(source_file.read())
         contact_list = []
@@ -38,6 +51,7 @@ def vcf_to_csv(vcf_filename, csv_filename):
             dict_writer = csv.DictWriter(output_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(contact_list)
+
 
 fix_vcf('vcards.vcf', 'contacts_fixed.vcf')
 
