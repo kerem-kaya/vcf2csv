@@ -29,6 +29,7 @@ def vcf_to_csv(vcf_filename, csv_filename):
     :param vcf_filename: The name of the input vCard file.
     :param csv_filename: The name of the output CSV file.
     """
+    # Encoding is changed for Turkish characters, change for your set
     with open(vcf_filename, 'r', encoding=' ISO-8859-9') as source_file:
         vcard_data = vobject.readComponents(source_file.read())
         contact_list = []
