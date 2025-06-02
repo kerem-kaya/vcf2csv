@@ -1,7 +1,7 @@
+import argparse
 import csv
+import os
 import vobject
-import quopri
-import chardet
 
 def fix_vcf(vcf_filename, fixed_vcf_filename):
     """
@@ -30,7 +30,7 @@ def vcf_to_csv(vcf_filename, csv_filename):
     :param csv_filename: The name of the output CSV file.
     """
     # Encoding is changed for Turkish characters, change for your set
-    with open(vcf_filename, 'r', encoding=' ISO-8859-9') as source_file:
+    with open(vcf_filename, 'r', encoding='ISO-8859-9') as source_file:
         vcard_data = vobject.readComponents(source_file.read())
         contact_list = []
 
@@ -53,7 +53,18 @@ def vcf_to_csv(vcf_filename, csv_filename):
             dict_writer.writeheader()
             dict_writer.writerows(contact_list)
 
+def main():
+    parser = argparse.ArgumentParser(description="Convert vCard (.vcf) files to CSV")
+    parser.add_argument("input_vcf", help="Path to the input vCard file")
+    parser.add_argument("output_csv", help="Path to the output CSV file")
+    parser.add_argument("--fixed", dest="fixed_vcf", help="Optional path for the intermediate fixed vCard file")
+    args = parser.parse_args()
 
-fix_vcf('vcards.vcf', 'contacts_fixed.vcf')
+    fixed_path = args.fixed_vcf or os.path.splitext(args.input_vcf)[0] + "_fixed.vcf"
 
-vcf_to_csv('contacts_fixed.vcf', 'contacts.csv')
+    fix_vcf(args.input_vcf, fixed_path)
+    vcf_to_csv(fixed_path, args.output_csv)
+
+
+if __name__ == "__main__":
+    main()

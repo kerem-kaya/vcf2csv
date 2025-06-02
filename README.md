@@ -10,14 +10,14 @@ This Python script provides functionality to convert vCard (`.vcf`) files into C
 
 ## How to Run
 
-1. Make sure you have the required Python packages installed by running:  
-   `pip install vobject quopri chardet`
-2. Run the script in a Python environment:  
-   `python vcf2csv.py`
+1. Make sure you have the required Python package installed by running:
+   `pip install vobject`
+2. Run the script with your vCard and output CSV file paths:
+   `python vcf2csv.py input.vcf output.csv`
 
 ## Limitations and Possible Improvements
 
-- The script is currently hardcoded to process specific files. Consider modifying it to accept user input or command-line arguments for the filenames.
+- The script expects filenames as command-line arguments, so provide both the input vCard and output CSV paths when running it.
 - The script uses the `ISO-8859-9` encoding to handle Turkish characters. If the vCard file contains characters from different languages, you may need to adjust the encoding.
 - The script currently ignores photos in the vCard file. If your vCard files include photos and you want to process them, you will need to extend the script.
 - The script assumes that fields like name, email, and phone number exist in the vCard file and are of a certain type. If your vCard files have different fields or data types, you may need to adjust the script.
